@@ -1,10 +1,8 @@
 class Solution {
 public:
     
-    int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3, vector<int>& nums4) {
-        
+    int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3, vector<int>& nums4) {        
         map<int,int> foo;
-        
         for(int i=0;i<nums3.size();i++){
             for(int j=0;j<nums4.size();j++){
                 int sum = nums3[i] + nums4[j];
