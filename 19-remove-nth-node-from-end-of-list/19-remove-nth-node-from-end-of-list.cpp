@@ -21,7 +21,7 @@ public:
         if(fast == nullptr)
             return head->next;
         
-        while(fast!=nullptr and fast->next!=nullptr){
+        while(fast->next!=nullptr){
             fast=fast->next;
             slow=slow->next;
         }
