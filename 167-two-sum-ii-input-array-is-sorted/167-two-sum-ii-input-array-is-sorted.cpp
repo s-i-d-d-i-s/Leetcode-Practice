@@ -7,8 +7,7 @@ public:
         while(l<r){
             int sum =  numbers[l]+numbers[r];
             if(sum == target){
-                result.push_back(l+1);
-                result.push_back(r+1);
+                return {l+1,r+1};
                 break;
             }else if(sum < target){
                 l++;
