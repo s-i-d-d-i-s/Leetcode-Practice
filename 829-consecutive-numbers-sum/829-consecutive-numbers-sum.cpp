@@ -11,8 +11,10 @@ public:
     }
     int consecutiveNumbersSum(int n) {
         int res=0;
-        for(int i=1;i<=min(1000000,n);i++){
-            res += (solve(n,i));
+        int lim = ceil(sqrt(n));
+        for(int i=1;i<=2*lim;i++){
+            int f= (solve(n,i));
+            res += f;
         }
         return res;
     }
