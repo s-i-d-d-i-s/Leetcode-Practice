@@ -1,23 +1,40 @@
 class Solution {
 public:
     int timeRequiredToBuy(vector<int>& tickets, int k) {
-        queue<pair<int,int>> dq;
+        vector<pair<int,int>> v;
         int n = tickets.size();
         for(int i=0;i<n;i++){
-            dq.push({i,tickets[i]});
+            v.push_back({tickets[i],i});
         }
-        int res=0;
-        while(dq.size()>0){
-            auto cur = dq.front();
-            res++;
-            dq.pop();
-            cur.second--;
-            if(cur.first==k and cur.second==0){
-                return res;
+        sort(v.begin(),v.end(),[](pair<int,int> &a,pair<int,int> &b){
+            if(a.first == b.first){
+                return a.second < b.second;
             }
-            if(cur.second==0)continue;
-            dq.push(cur);
+            return a.first < b.first;
+        });
+        int buf=0;
+        for(int i=k+1;i<n;i++){
+            if(tickets[i]>=tickets[k]){
+                buf++;
+            }
         }
-        return -1;
+        // for(auto x:v){
+        //     cout << "(" << x.first << "," << x.second << "), ";
+        // }
+        // cout << endl;
+        int gone = 0;
+        int res=0;
+        for(int i=0;i<n;i++){
+            int left = n-i;
+            int cur = v[i].first-gone;
+            if(cur>0){
+                gone += cur;
+                res += left*cur;
+            }
+            if(v[i].second == k){
+                break;
+            }
+        }
+        return res-buf;
     }
 };
