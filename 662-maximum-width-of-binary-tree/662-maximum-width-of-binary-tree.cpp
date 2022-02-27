@@ -9,31 +9,19 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+typedef unsigned long long ll;
 class Solution {
 public:
-    map<unsigned long long,vector<unsigned  long long>> foo;
-    void solve(TreeNode *root,unsigned long long depth,unsigned long long place){
-        if(root==nullptr)return;
-        foo[depth].push_back(place);
-        solve(root->left,depth+1,2*place+1);
-        solve(root->right,depth+1,2*place+2);
-        return;
-    }
-    int widthOfBinaryTree(TreeNode* root) {
-        solve(root,0,0);
-        long long res=0;
-        for(auto x:foo){
-            //cout << x.first << " : ";
-            long long mini = x.second[0];
-            long long maxi = x.second[0];
-            for(long long y:x.second){
-                //cout << y << " ";
-                mini = min(mini,y);
-                maxi = max(maxi,y);
-            }
-            //cout << endl;
-            res = max(res,maxi-mini+1);
+    vector<ll> left;
+    int solve(TreeNode *root,ll depth,ll place){
+        if(root==nullptr)return 0;
+        if(depth>=left.size()){
+            left.push_back(place);
         }
-        return res;
+        int cur = place-left[depth]+1;
+        return max({cur,solve(root->left,depth+1,2*place),solve(root->right,depth+1,2*place+1)});
+    }
+    int widthOfBinaryTree(TreeNode* root) {        
+        return solve(root,0,1);;
     }
 };
