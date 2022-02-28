@@ -1,19 +1,22 @@
 class Solution {
 public:
-    unordered_map<int,int> hMap,dp;
-    int solve(int start,vector<int> &nums){
-        if(hMap.find(start)==hMap.end()) return 0;
-        if(dp.find(start)!=dp.end()) return dp[start];
-        return dp[start]=1+solve(start+1,nums);
-    }
+    unordered_set<int> hSet;
     int longestConsecutive(vector<int>& nums) {
         if(nums.size()==0)return 0;
 
-        for(int x:nums) hMap[x]=1;
+        for(int x:nums) hSet.insert(x);
         
         int res=0;
         for(int i=0;i<nums.size();i++){
-            res = max(res,solve(nums[i],nums));
+            if(hSet.find(nums[i]-1) == hSet.end()){
+                int current = 1;
+                int number = nums[i]+1;
+                while(hSet.find(number) != hSet.end()){
+                    number++;
+                    current++;
+                }
+                res = max(res,current);
+            }
         }
         return res;
     }
