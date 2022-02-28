@@ -11,11 +11,10 @@ public:
         int r=n-1;
         int res = getArea(height,l,r);
         while(l<r){
-            if(height[l]<height[r]){
+            if(height[l]<height[r])
                 l++;
-            }else{
-                r--;
-            }
+            else
+                r--;            
             int current_area = getArea(height,l,r);
             res = max(res,current_area);
         }
