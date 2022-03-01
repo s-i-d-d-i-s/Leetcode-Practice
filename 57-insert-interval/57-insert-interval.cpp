@@ -15,23 +15,32 @@ public:
             result.push_back(newInterval);
             return result;
         }
-        bool isInserted=false;
+        
+        // First add all intervals to the left of the newInterval
         for(int i=0;i<intervals.size();i++){
-            if(!isInserted and intervals[i][0]>newInterval[1]){
-                result.push_back(newInterval);
-                isInserted=true;
-            }
-            
-            if(!isInserted and isIntersect(intervals[i],newInterval)){
-                newInterval = merge(intervals[i],newInterval);
+            if(intervals[i][1] < newInterval[0]){
+                result.push_back(intervals[i]);
             }else{
+                break;
+            }
+        }
+        
+        // Add all the intersecting intervals
+        for(int i=0;i<intervals.size();i++){
+            if(isIntersect(intervals[i],newInterval)){
+                newInterval = merge(intervals[i],newInterval);
+            }
+        }
+        result.push_back(newInterval);
+        
+        
+        // Add all the intervals to the right of the updated newInterval
+        for(int i=0;i<intervals.size();i++){
+            if(intervals[i][0] > newInterval[1]){
                 result.push_back(intervals[i]);
             }
-            
         }
-        if(!isInserted){
-            result.push_back(newInterval);
-        }
+        
         return result;
     }
 };
