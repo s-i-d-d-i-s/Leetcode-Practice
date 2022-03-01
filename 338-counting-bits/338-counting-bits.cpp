@@ -13,9 +13,13 @@ public:
     }
     
     vector<int> countBits(int n) {
-        vector<int> result(n+1);
+        vector<int> result(n+1,-1);
         for(int i=0;i<=n;i++){
-            result[i] = getBitCount(i);
+            if(i==0 or (i%2!=0))
+                result[i] = getBitCount(i);
+            else
+                result[i] = result[i/2];
+                
         }
         return result;
     }
