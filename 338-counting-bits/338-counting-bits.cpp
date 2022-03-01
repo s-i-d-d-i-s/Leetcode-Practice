@@ -15,10 +15,12 @@ public:
     vector<int> countBits(int n) {
         vector<int> result(n+1,-1);
         for(int i=0;i<=n;i++){
-            if(i==0 or (i%2!=0))
+            if(i==0)
                 result[i] = getBitCount(i);
-            else
+            else if(i%2 == 0)
                 result[i] = result[i/2];
+            else if(i%2 != 0)
+                result[i] = 1+result[i-1];
                 
         }
         return result;
