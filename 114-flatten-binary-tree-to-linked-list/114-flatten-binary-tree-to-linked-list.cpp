@@ -12,14 +12,11 @@
 
 class Solution {
 public:
-    
-    TreeNode *flattenTree(TreeNode *root,TreeNode *nextSection=nullptr){
-        if(root == nullptr) return nextSection;
-        
-        root->right = flattenTree(root->right,nextSection);
-        auto left = flattenTree(root->left,root->right);
+    TreeNode *flattenTree(TreeNode *root,TreeNode *addAtBottom=nullptr){
+        if(root == nullptr) return addAtBottom;
+        root->right = flattenTree(root->right,addAtBottom);
+        root->right = flattenTree(root->left,root->right);
         root->left = nullptr;
-        root->right = left;
         return root;
     }
     void flatten(TreeNode* root) {
