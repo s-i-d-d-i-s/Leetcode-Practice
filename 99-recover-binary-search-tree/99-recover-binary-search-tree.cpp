@@ -12,27 +12,39 @@
 
 class Solution {
 public:
-    vector<TreeNode *> nodes;
-    void inorder(TreeNode *root){
-        if(root==nullptr)return ;
-        inorder(root->left);
-        nodes.push_back(root);
-        inorder(root->right);
+    TreeNode *faulty=nullptr;
+    
+    bool findFaulty(TreeNode *root){
+        if(root==nullptr)return false;
+        
+        if(findFaulty(root->right))return true;
+        
+        if(faulty == nullptr){
+            faulty= root;
+        }else{
+            if(root->val > faulty->val){
+                return true;
+            }else{
+                faulty= root;
+            }
+        }
+        if(findFaulty(root->left))return true;
+        return false;
+    }
+    
+    bool inorder(TreeNode *root){
+        if(root==nullptr)return false;
+        if(inorder(root->left))return true;
+        if(root->val>faulty->val){
+            swap(root->val,faulty->val);
+            return true;
+        }
+        if(inorder(root->right))return true;
+        return false;
     }
     void recoverTree(TreeNode* root) {
+        findFaulty(root);
+        cout << faulty->val << endl;
         inorder(root);
-        TreeNode *faulty=nullptr;
-        for(int i=nodes.size()-1;i>=1;i--){
-            if(nodes[i]->val < nodes[i-1]->val){
-                faulty=nodes[i];
-                break;
-            }
-        }
-        for(int i=0;i<nodes.size();i++){
-            if(nodes[i]->val > faulty->val){
-                swap(nodes[i]->val,faulty->val);
-                break;
-            }
-        }
     }
 };
