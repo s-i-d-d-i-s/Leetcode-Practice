@@ -11,25 +11,33 @@
  */
 class Solution {
 public:
-    long firstElement=LONG_MAX;
-    long secondElement=LONG_MAX;
+    long minimum=LONG_MAX;
+    long secondMinimum=LONG_MAX;
     
     void inorder(TreeNode *root){
         if(root==nullptr)return;
         
-        if(firstElement > root->val){
-            swap(firstElement,secondElement);
-            firstElement = root->val;
-        }else if(firstElement < root->val and secondElement > root->val){
-            secondElement = root->val;
+        //      val [m sm] -> [val,m]
+        if(root->val < minimum){
+            swap(minimum,secondMinimum);
+            minimum = root->val;
         }
+        
+        //      [m sm] val -> [m,sm]
+        // Do Nothing
+        
+        //      [m  val sm]  -> [m,sm]
+        else if(root->val > minimum and root->val < secondMinimum){
+            secondMinimum = root->val;
+        }
+        
         
         inorder(root->left);
         inorder(root->right);
     }
     int findSecondMinimumValue(TreeNode* root) {
         inorder(root);
-        if(secondElement == LONG_MAX) return -1;
-        return secondElement;
+        if(secondMinimum == LONG_MAX) return -1;
+        return secondMinimum;
     }
 };
