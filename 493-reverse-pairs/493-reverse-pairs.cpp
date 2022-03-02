@@ -18,6 +18,24 @@ public:
             p1++;
         }
         
+        // left  ->  [1] 2 3
+        // right ->  [1] 3
+        
+        /*
+            i = left pointer
+            j = right pointer
+            
+            move pointer on right as long as its valid... that's the solution for that particular             'i'
+            
+            now when we move to the next 'i', we won't change 'j' 
+            
+            because for those numbers behind 'j', thier double was smaller than the previos 'i'
+            
+            and the previous i had a smaller value than now. so automatically, those values are 
+            satisfied.
+        */
+        
+        
         sort(a.begin()+l,a.begin()+r+1);
         return result;
     }
