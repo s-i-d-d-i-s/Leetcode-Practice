@@ -12,22 +12,18 @@
 class Solution {
 public:
     TreeNode* addOneRow(TreeNode* root, int val, int depth,bool isLeft=true) {
-        if(root == nullptr){ 
-            if(depth == 1)
-                return new TreeNode(val);
-            return nullptr;
-        }
+        
         if(depth == 1){
-            TreeNode *nroot = new TreeNode(val);
-            if(isLeft)
-                nroot->left = root;
-            else
-                nroot->right = root;
-            return nroot;
-        }else{
-            root->left = addOneRow(root->left,val,depth-1,true);
-            root->right = addOneRow(root->right,val,depth-1,false);
-            return root;
+            TreeNode * newNode = new TreeNode(val);
+            if(root == nullptr) return newNode;            
+            if(isLeft) newNode->left = root;
+            else newNode->right = root;            
+            return newNode;
         }
-    }
+        if(root == nullptr)return nullptr;
+        
+        root->left = addOneRow(root->left,val,depth-1,true);
+        root->right = addOneRow(root->right,val,depth-1,false);
+        return root;
+    }    
 };
