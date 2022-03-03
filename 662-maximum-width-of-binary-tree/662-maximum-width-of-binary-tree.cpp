@@ -19,7 +19,9 @@ public:
             left.push_back(place);
         }
         int cur = place-left[depth]+1;
-        return max({cur,solve(root->left,depth+1,2*place),solve(root->right,depth+1,2*place+1)});
+        return max({cur,
+                    solve(root->left,depth+1,2*place),
+                    solve(root->right,depth+1,2*place+1)});
     }
     int widthOfBinaryTree(TreeNode* root) {        
         return solve(root,0,1);
