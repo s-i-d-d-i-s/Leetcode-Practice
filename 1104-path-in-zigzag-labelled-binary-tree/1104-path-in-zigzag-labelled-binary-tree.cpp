@@ -20,8 +20,7 @@ public:
             label/=2;            
             int start = powl(2,level-1);
             int end = powl(2,level)-1;
-            int gap = label-start;
-            label = end-gap;
+            label = (start+end) - label;
         }
         reverse(result.begin(),result.end());
         return result;
