@@ -14,11 +14,7 @@ public:
     }
     double champagneTower(int poured, int query_row, int query_glass) {
         vector<double> currentRow;
-        if(query_row > 0)
-            currentRow.push_back(poured);
-        else
-            currentRow.push_back(min(1.0,(double)poured));
-
+        currentRow.push_back(poured);
         while(query_row-->0){
             currentRow = getNextRow(currentRow);
         }
