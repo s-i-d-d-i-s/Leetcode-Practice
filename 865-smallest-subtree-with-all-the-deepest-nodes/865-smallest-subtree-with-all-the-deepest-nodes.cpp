@@ -12,33 +12,42 @@
 class Solution {
 public:
     int maxDepth = -1;
-    set<int> deepestLeafNodes;
+    TreeNode *deepestLeftNode;
+    TreeNode *deepestRightNode;
     
-    void inOrder(TreeNode *root,int depth=0){
+    void inOrder(TreeNode *root,bool goLeft=true,int depth=0){
         if(root==nullptr) return;
-        if(depth>maxDepth){
-            deepestLeafNodes.clear();
-            deepestLeafNodes.insert(root->val);
-            maxDepth = depth;
-        }else if(depth == maxDepth){
-            deepestLeafNodes.insert(root->val);
+        
+        if(goLeft and depth>maxDepth){
+            deepestLeftNode = root;
+            maxDepth=depth;
+        }else if(!goLeft and depth>maxDepth){
+            deepestRightNode = root;
+            maxDepth=depth;
         }
         
-        inOrder(root->left,depth+1);
-        inOrder(root->right,depth+1);
+        if(goLeft){
+            inOrder(root->left,goLeft,depth+1);
+            inOrder(root->right,goLeft,depth+1);
+        }else{
+            inOrder(root->right,goLeft,depth+1);
+            inOrder(root->left,goLeft,depth+1);
+        }
         return;
     }
     
     
     TreeNode* subtreeWithAllDeepest(TreeNode* root) {
-        inOrder(root);
+        inOrder(root,true);
+        maxDepth=-1;
+        inOrder(root,false);
         return findLCA(root);
     }
     
     TreeNode * findLCA(TreeNode *root){
         if(root == nullptr) return nullptr;
         
-        if(deepestLeafNodes.find(root->val) != deepestLeafNodes.end())
+        if(root->val == deepestLeftNode->val or root->val == deepestRightNode->val )
             return root;
         
         auto left = findLCA(root->left);
