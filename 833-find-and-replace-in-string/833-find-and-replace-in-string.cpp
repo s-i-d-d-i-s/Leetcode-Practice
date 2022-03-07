@@ -15,7 +15,6 @@ public:
             int currentIndex = v[i].first;
             if(s.substr(currentIndex,currentSource.length()) == currentSource ){                
                 int idx = s.find(currentSource,currentIndex);
-                cout << idx << endl;
                 s=s.replace(idx,currentSource.length(),currentTarget);
             }            
         }
