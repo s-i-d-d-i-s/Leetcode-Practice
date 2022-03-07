@@ -2,27 +2,24 @@ class Solution {
 public:
     bool circularArrayLoop(vector<int>& nums) {
         int n = nums.size();
-        vector<int> colours(n,0);
         for(int i=0;i<n;i++){
-            if(colours[i] == 0 and depthFirstSearch(i,nums,colours))return true;
+            if(nums[i] <=1000 and depthFirstSearch(i,nums))return true;
         }
         return false;
     }
-    bool depthFirstSearch(int source,vector<int> &nums,vector<int> &colours){
-        if(colours[source] == 1)return true;
-        if(colours[source] == 2)return false;
-        
-        colours[source]=1;
+    bool depthFirstSearch(int source,vector<int> &nums){
+        if(nums[source] == 1001)return true;
+        if(nums[source] == 1002)return false;
         
         int next = getNextIndex(source,nums);
-        if(source == next or nums[source]*nums[next]<0){
-            colours[source]=2;
+        if(source == next or nums[source]*nums[next]<0 and nums[next]<=1000){
+            nums[source]=1002;
             return false;
         }
-                 
-        if(depthFirstSearch(next,nums,colours))return true;
         
-        colours[source]=2;
+        nums[source]=1001;         
+        if(depthFirstSearch(next,nums))return true;        
+        nums[source]=1002;
         return false;
     }
     
