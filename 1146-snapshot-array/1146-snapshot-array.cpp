@@ -1,7 +1,7 @@
 class SnapshotArray {
 public:
     int snapId=0;
-    map<int,map<int,int>> snapshot;
+    unordered_map<int,unordered_map<int,int>> snapshot;
     
     SnapshotArray(int length) {
         
