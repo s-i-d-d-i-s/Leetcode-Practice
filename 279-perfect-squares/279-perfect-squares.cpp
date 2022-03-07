@@ -1,9 +1,14 @@
+int dp[10005];
+bool init = false;
 class Solution {
 public:
-    int dp[10005];
+    
     
     Solution(){
-        memset(dp,-1,sizeof dp);
+        if(!init){
+            memset(dp,-1,sizeof dp);
+            init=1;
+        }
     }
     int numSquares(int n) {
         if(n<=1)return n;
