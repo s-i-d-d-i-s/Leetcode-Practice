@@ -3,20 +3,18 @@ public:
     int hIndex(vector<int>& citations) {
         int n = citations.size();
         sort(citations.begin(),citations.end());
-        for(int i=0;i<=n;i++){
-            int cnt=i;
-            int cnt2=0;
-            for(int j=n-1;j>=0;j--){
-                if(cnt>0 and citations[j] >= i){
-                    cnt--;
-                }else if(citations[j] <= i){
-                    cnt2++;
-                }
-            }
-            if(cnt2+i == n and cnt==0){
-                return i;
+        
+        /*
+            0 1 3 5 6
+        */
+        int cnt=0;
+        int result=0;
+        for(int j=n-1;j>=0;j--){
+            cnt++;
+            if(citations[j] >= cnt){
+                result = max(result,cnt);
             }
         }
-        return -1;
+        return result;
     }
 };
