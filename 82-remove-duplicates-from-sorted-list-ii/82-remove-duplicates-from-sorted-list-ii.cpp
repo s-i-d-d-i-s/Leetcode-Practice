@@ -10,14 +10,14 @@
  */
 class Solution {
 public:
-    ListNode* deleteDuplicates(ListNode* head) {
-        if(head == nullptr or head->next == nullptr) return head;
-        if(head->val == head->next->val){
-            if(head->next->next == nullptr or head->next->next->val != head->val)
-                return deleteDuplicates(head->next->next);
-            else
-                return deleteDuplicates(head->next);
-        }
+    ListNode* deleteDuplicates(ListNode* head,int skip=INT_MIN) {
+        if(head == nullptr) return head;
+        if(head->val == skip)
+            return deleteDuplicates(head->next,skip);
+        
+        if(head->next and head->next->val == head->val)
+            return deleteDuplicates(head->next,head->val);
+        
         head->next = deleteDuplicates(head->next);
         return head;
     }
