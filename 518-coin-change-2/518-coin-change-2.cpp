@@ -1,18 +1,18 @@
 class Solution {
 public:
-    int dp[300][5005];
+    int dp[301][5005];
     int change(int amount, vector<int>& coins) {
         memset(dp,-1,sizeof dp);
         int result = coinChangeUtil(0,coins,amount);
         return result;
     }
     int coinChangeUtil(int idx,vector<int>& coins, int amount) {
-        if(idx>=coins.size()){
+        if(idx>=coins.size())
             return amount==0?1:0;
-        }
-        if(dp[idx][amount]!=-1){
+        
+        if(dp[idx][amount]!=-1)
             return dp[idx][amount];
-        }
+        
         
         int canTake = amount/coins[idx];
         int result=0;
