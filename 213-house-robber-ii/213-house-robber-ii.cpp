@@ -1,26 +1,20 @@
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        int result = robUtil(nums);
-        reverse(nums.begin(),nums.end());
-        result = max(result,robUtil(nums));
-        return result;
-    }
-    int robUtil(vector<int>& nums) {
         int n = nums.size();
-        if(n<=3){
-            return *max_element(nums.begin(),nums.end());
-        }
+        if(n==1) return nums[0];
+        return max(robUtil(nums,0,n-2),robUtil(nums,1,n-1));
+    }
+    int robUtil(vector<int>& nums,int l,int r) {
+        int n = nums.size();
+        if(l==r) return nums[l];
+        
         vector<int> dp(n);
-        dp[0]=nums[0];
-        dp[1]=max(nums[0],nums[1]);
-        for(int i=2;i<n;i++){
-            if((i==n-1)){
-                dp[i]=dp[i-1];
-                continue;
-            }
+        dp[l]=nums[l];
+        dp[l+1]=max(nums[l],nums[l+1]);
+        
+        for(int i=l+2;i<=r;i++)
             dp[i] = max(dp[i-2]+nums[i],dp[i-1]);
-        }
-        return dp[n-1];
+        return dp[r];
     }
 };
