@@ -8,27 +8,52 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+    
 class Solution {
 public:
-    void reorderList(ListNode* head) {
-        vector<ListNode*> stk;
-        ListNode* cursor = head;
-        while(cursor != nullptr){
-            stk.push_back(cursor);
-            cursor=cursor->next;
-        }
-        cursor = head;
-        int n = stk.size()/2;
+    ListNode* middleNode(ListNode* head) {
+        ListNode *slow = head;
+        ListNode *fast = head;
+        ListNode *beforeSlow = nullptr;
         
-        while(n--){
-            ListNode * last=stk.back();
-            ListNode * next=cursor->next;
-            stk.pop_back();
+        while(fast && fast -> next){
+            beforeSlow = slow;
+            slow = slow -> next,
+            fast = fast -> next -> next;
+        }
+        return beforeSlow;                    
+    }
+    void reorderList(ListNode* head) {
+        if(head -> next == nullptr) return ;
+        ListNode * mid = middleNode(head);
+        ListNode * right = mid->next;
+        mid->next=nullptr; 
+        right = reverse(right);
+        ListNode * last = new ListNode(-1);
+        while(head!=nullptr and right!=nullptr){
+            ListNode * nextHead = head->next;
+            ListNode * nextRight = right->next;
+            last->next = head;
+            last = head;
+            last->next = right;
+            last = right;
+            head = nextHead;
+            right = nextRight;
+        }
+        return;
+    }
+    ListNode * reverse(ListNode *head){
+        if(head == nullptr)return nullptr;
+        if(head->next == nullptr) return head;
+        
+        ListNode *cursor = head;
+        ListNode *last = nullptr;
+        while(cursor!=nullptr){
+            ListNode * next = cursor->next;
             cursor->next = last;
-            last->next = next;
+            last=cursor;
             cursor = next;
         }
-        cursor->next = nullptr;
-        return;
+        return last;
     }
 };
