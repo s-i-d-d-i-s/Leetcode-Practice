@@ -12,17 +12,17 @@
 class Solution {
 public:
     int result=0;
-    int balanceTree(TreeNode * root){
-        if(root == nullptr) return 0;
-        int haveCoins = root->val;
-        int left = balanceTree(root->left);
-        int right  = balanceTree(root->right);
-        result += (abs(left)+abs(right));
-        int currentBalance = -1 + haveCoins + left + right;
-        return currentBalance;
-    }
     int distributeCoins(TreeNode* root) {
-        balanceTree(root);
+        getStatus(root);
         return result;
+    }
+    
+    int getStatus(TreeNode *root){
+        if(root == nullptr) return 0;
+        int left = getStatus(root->left);
+        int right = getStatus(root->right);
+        int movement = abs(left) + abs(right);
+        result += movement;
+        return left+right-1+root->val;
     }
 };
