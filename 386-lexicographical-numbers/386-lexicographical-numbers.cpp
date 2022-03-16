@@ -8,7 +8,8 @@ public:
         }
         result.push_back(cur);
         for(int i=0;i<=9;i++)
-            dfs(cur*10+i,target);
+            if(cur*10+i<=target)
+                dfs(cur*10+i,target);
     }
     vector<int> lexicalOrder(int n) {
         for(int i=1;i<=9;i++){
