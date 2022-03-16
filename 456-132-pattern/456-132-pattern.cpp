@@ -16,15 +16,12 @@ public:
             while(stk.size()>0 and stk.top().first<nums[i])
                 stk.pop();
             
-            if(stk.size()>0)
-                nextGreater[i]=stk.top().second;
-            
-            stk.push({nums[i],i});                        
-            if(nextGreater[i] != -1){
-                int j = nextGreater[i];
+            if(stk.size()>0){
+                int j = stk.top().second;                                                         ;
                 if(j-1>=0 and minimum[j-1]<nums[j] and nums[j]>nums[i] and minimum[j-1]<nums[i])
-                        return true;
+                        return true;            
             }
+            stk.push({nums[i],i});
         }
         return false;
     }
