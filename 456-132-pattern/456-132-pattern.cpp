@@ -22,11 +22,8 @@ public:
             stk.push({nums[i],i});                        
             if(nextGreater[i] != -1){
                 int j = nextGreater[i];
-                if(j-1>=0){
-                    if(minimum[j-1]<nums[j] and nums[j]>nums[i] and minimum[j-1]<nums[i]){
+                if(j-1>=0 and minimum[j-1]<nums[j] and nums[j]>nums[i] and minimum[j-1]<nums[i])
                         return true;
-                    }
-                }
             }
         }
         return false;
