@@ -5,7 +5,7 @@ public:
         int result=0;
         char last=p[0];
         int len = 1;
-        map<char,int> maxSubstr;
+        unordered_map<char,int> maxSubstr;
         
         maxSubstr[p[0]]=max(maxSubstr[p[0]],len);
         
