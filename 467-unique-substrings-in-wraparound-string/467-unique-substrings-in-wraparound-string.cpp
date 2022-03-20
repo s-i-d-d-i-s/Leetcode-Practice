@@ -30,9 +30,6 @@ public:
             maxSubstr[p[i]]=max(maxSubstr[p[i]],len);
         }
         
-        if(len>0)
-            maxSubstr[p[n-1]]=max(maxSubstr[p[n-1]],len);
-        
         for(auto x:maxSubstr){
             result += x.second;
         }
