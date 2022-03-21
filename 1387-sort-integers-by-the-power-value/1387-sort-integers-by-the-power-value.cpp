@@ -1,12 +1,18 @@
 class Solution {
 public:
-    unordered_map<int,int> dp;
+    int dp[1005];
     int getKth(int lo, int hi, int k) {
-
         vector<int> nums;
         for(int i=lo;i<=hi;i++){
             nums.push_back(i);
-            getPower(i);
+            int result=0;
+            int num=i;
+            while(num != 1){
+                if(num & 1) num = 3*num+1;
+                else num/=2;
+                result++;
+            }
+            dp[i]=result;
         }
         sort(nums.begin(),nums.end(),[&](int a,int b){
             if(dp[a] == dp[b]){
@@ -16,11 +22,5 @@ public:
         });
         return nums[k-1];
     }
-    int getPower(int n){
-        if(n==1) return 0;
-        if(dp.count(n))
-            return dp[n];        
-        if(n%2 == 0) return dp[n]=1+getPower(n/2);      
-        return dp[n]=1+getPower(3*n + 1);
-    }
+
 };
