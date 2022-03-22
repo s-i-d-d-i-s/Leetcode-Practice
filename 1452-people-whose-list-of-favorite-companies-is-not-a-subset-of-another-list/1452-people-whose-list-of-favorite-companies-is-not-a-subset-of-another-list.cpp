@@ -6,23 +6,21 @@ public:
     vector<int> peopleIndexes(vector<vector<string>>& favoriteCompanies) {
         
         // Assign an index to all companies
-        for(auto x:favoriteCompanies){
-            for(auto y:x){
-                if(getIndex.find(y) == getIndex.end()){
-                    getIndex[y] = nextIndex++;
-                }
-            }
-        }
-        vector<bitset<50001>> bits;
+        vector<bitset<50001>> bits;        
         for(auto x:favoriteCompanies){
             bitset<50001> current;
             for(auto y:x){
+                if(getIndex.find(y) == getIndex.end()){
+                    getIndex[y] = nextIndex++;                    
+                }                
                 int companyIndex = getIndex[y];
                 current[companyIndex]=1;
             }
             bits.push_back(current);
         }
+        
         int n = favoriteCompanies.size();
+        
         vector<int> result;
         for(int i=0;i<n;i++){
             bool isASubset = false;
