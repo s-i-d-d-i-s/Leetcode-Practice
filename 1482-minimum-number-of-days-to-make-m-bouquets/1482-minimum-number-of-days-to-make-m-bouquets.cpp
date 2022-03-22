@@ -1,7 +1,7 @@
 class Solution {
 public:
     int minDays(vector<int>& bloomDay, int m, int k) {
-        int limit = 1e9+1;
+        int limit = *max_element(bloomDay.begin(),bloomDay.end())+5;
         int l=0;
         int r=limit;
         int result=r;
