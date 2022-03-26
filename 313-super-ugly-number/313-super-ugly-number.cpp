@@ -11,7 +11,7 @@ public:
         vector<ll> result={1};
         set<pair<ll,pair<ll,ll>>,cmp> pq;
         for(auto x:primes){
-            pq.insert({x,{0,result[0]}});
+            pq.insert({x,{0,result[0]}}); // (prime,pointerToLastUglyNumber,lastUglyNumber)
         }
         while(result.size()<n){
             ll num = pq.begin()->first;
@@ -19,7 +19,6 @@ public:
             ll pointerValue = pq.begin()->second.second;
             
             ll value = num*pointerValue;
-            
             
             pq.erase(pq.begin());
             result.push_back(value);
