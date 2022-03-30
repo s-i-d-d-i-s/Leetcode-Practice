@@ -33,22 +33,26 @@ class DSU{
 class Solution {
 public:
     vector<int> findRedundantDirectedConnection(vector<vector<int>>& edges) {
+        int n = edges.size();
+        vector<int> parent(n+1,-1);
         
-        auto cycleSol = getCycleSolution(edges);
-        auto parentSol = getParentSolution(edges);
+        vector<vector<int>> candidates;
         
-        if(parentSol[0] == -1) return cycleSol;
-        if(cycleSol[0] == -1) return parentSol;
-
-        edges = eraseEdge(edges,parentSol);
-        cycleSol = getCycleSolution(edges);
-        if(cycleSol[0] == -1) return parentSol;        
+        for(auto x:edges){
+            if(parent[x[1]] != -1){
+                candidates.push_back(x);
+                candidates.push_back({parent[x[1]],x[1]});
+                continue;
+            }
+            parent[x[1]]=x[0];
+        }
         
-        edges.push_back(parentSol);
-        reverse(edges.begin(),edges.end());
-        parentSol = getParentSolution(edges);
-
-        return parentSol;        
+        if(candidates.size()==0){
+            return getCycleSolution(edges);
+        }
+        edges = eraseEdge(edges,candidates[0]);
+        if(getCycleSolution(edges)[0] == -1) return candidates[0];
+        return candidates[1];
     }
     
     vector<vector<int>> eraseEdge(vector<vector<int>>& edges,vector<int> edge){
@@ -72,15 +76,4 @@ public:
         return {-1,-1};
     }
     
-    vector<int> getParentSolution(vector<vector<int>>& edges){
-        int n = edges.size();
-        vector<int> parent(n+1,-1);
-        for(auto x:edges){
-            if(parent[x[1]] != -1){
-                return x;
-            }
-            parent[x[1]]=x[0];
-        }
-        return {-1,-1};
-    }
 };
