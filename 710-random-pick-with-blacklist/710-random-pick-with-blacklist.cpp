@@ -6,8 +6,6 @@ public:
         max = n;
         unordered_map<int,bool> isBlacklist;
         
-        sort(blacklist.begin(),blacklist.end());
-        
         for(int x:blacklist)
             isBlacklist[x]=true;
         
@@ -15,8 +13,10 @@ public:
             int idx = blacklist[i]; 
             if(idx<max){
                 if(index.find(idx) == index.end()) index[idx] = blacklist[i];
-                if(isBlacklist[index[idx]] == false) continue;                                     
-                index[idx] = max-1;
+                if(index.find(max-1) == index.end()) index[max-1] = max-1;
+                if(isBlacklist[index[idx]] == false) continue;                     
+                
+                index[idx] = index[max-1];
                 max--;
                 i--;
             }
