@@ -11,9 +11,9 @@ public:
         if(dp[idx][k][buy] != -1)
             return dp[idx][k][buy];
         
-        int result1 = maxProfit(k,prices,idx+1,buy);
-        int result2 = prices[idx]*(buy?-1:1) + maxProfit(k-(buy?1:0),prices,idx+1,!buy);
+        int doNothing = maxProfit(k,prices,idx+1,buy);
+        int doTrade = prices[idx]*(buy?-1:1) + maxProfit(k-(buy?1:0),prices,idx+1,!buy);
         
-        return dp[idx][k][buy] = max(result1,result2);
+        return dp[idx][k][buy] = max(doNothing,doTrade);
     }
 };
