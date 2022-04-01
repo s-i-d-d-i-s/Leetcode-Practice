@@ -6,9 +6,8 @@ public:
         int result=0;
         int r=0;
         int maxi=0;
-        for(int i=0;i<n;i++){
+        for(int i=0;i<n-1;i++){
             maxi = max(maxi,i+nums[i]);
-            if(i==n-1)break;
             if(i>=r){
                 r=maxi;
                 result++;
