@@ -1,81 +1,50 @@
-/*
-
-        1 2 3 4 |  5 6 7
-        
-        1 2 3 | 5 6 7
-*/
-
 class MedianFinder {
 public:
-    multiset<int> left,right;
+    multiset<int> ms;
+    multiset<int>::iterator mid;
     MedianFinder() {
         
     }
     
     void addNum(int num) {
-        if(left.size()==0){
-            left.insert(num);
-            return;
-        }
-        
-        if(right.size()==0){
-            int lastOnLeft = getLast(left);            
-            if(num<lastOnLeft){
-                left.erase(left.find(lastOnLeft));
-                left.insert(num);
-                right.insert(lastOnLeft);
-            }else{
-                right.insert(num);
-            }
-            return;
-        }
-        
-        int leftMax = getLast(left);
-        int rightMin = getFirst(right);
-        if(num<=leftMax){
-            left.insert(num);
+        if(ms.size()==0){
+            ms.insert(num);
+            mid = ms.begin();
         }else{
-            right.insert(num);
+            int n = ms.size();
+            ms.insert(num);
+            if(n & 1){
+                if(num >= (*mid)){
+                    // Do nothing
+                }else{
+                    mid--;
+                }
+            }else{
+                if(num >= (*mid)){
+                    mid++;
+                }else{
+                    // do nothing
+                }
+            }
         }
-        balancing();
     }
     
     double findMedian() {
-        int n = left.size();
-        int m = right.size();
-        if(m==0) return getFirst(left);
-        
-        if((n+m) % 2 == 0){
-            return (double)(getLast(left)+getFirst(right))/2.0;
+        int n = ms.size();
+        if(n&1){
+            return *mid;
         }else{
-            if(n>m)
-                return getLast(left);
-            
-            return getFirst(right);
+            auto nextIt = mid;
+            nextIt++;
+            double result = (*mid) + (*nextIt);
+            result/=2.0;
+            return result;
         }
-        return 0.0;
-    }
-    
-    int getFirst(multiset<int> &a){
-        return a.size()>0?*a.begin():INT_MIN;
-    }
-    int getLast(multiset<int> &a){
-        return a.size()>0?*(--a.end()):INT_MIN;
-    }
-    
-    void balancing(){
-        if(left.size()>right.size()+1){
-            int lastOnLeft = getLast(left);
-            left.erase(left.find(lastOnLeft));
-            right.insert(lastOnLeft);
-        }else if(right.size()>left.size()+1){
-            int firstOnRight = getFirst(right);
-            right.erase(right.find(firstOnRight));
-            left.insert(firstOnRight);
-        }
-        return;
     }
 };
+
+
+
 
 /**
  * Your MedianFinder object will be instantiated and called as such:
