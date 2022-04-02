@@ -48,13 +48,13 @@ public:
         
         
         int right = calculateMinimumHP(dungeon,r,c+1);
-        int extraHealth = right-1;
-        int enoughHealthRight = healthToSurviveHere + extraHealth;
+        int extraHealthRight = right-1;
+        int enoughHealthRight = healthToSurviveHere + extraHealthRight;
         enoughHealthRight -= helpOffered;
         
         int down = calculateMinimumHP(dungeon,r+1,c);
-        extraHealth = down-1;
-        int enoughHealthDown = healthToSurviveHere + extraHealth;
+        int extraHealthDown = down-1;
+        int enoughHealthDown = healthToSurviveHere + extraHealthDown;
         enoughHealthDown -= helpOffered;
         
         return dp[r][c] = max(1,min(enoughHealthDown,enoughHealthRight));
