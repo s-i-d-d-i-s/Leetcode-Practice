@@ -1,4 +1,4 @@
-#define N 100000
+#define N 152353
 class MyHashSet {
 public:
     list<int> hashTable[N];
