@@ -12,29 +12,65 @@
 class CBTInserter {
 public:
     TreeNode* root = nullptr;
+    vector<TreeNode*> secLastLevel;
+    int idxLastUsed = 0;
     CBTInserter(TreeNode* root_) {
         root=root_;
-    }
-    
-    int insert(int val) {
         queue<TreeNode*> q;
         q.push(root);
         
         while(q.size()>0) {
-            auto node = q.front();
-            q.pop();
-            if(node->left == nullptr) {
-                node->left = new TreeNode(val);
-                return node->val;
+            int count = q.size();
+            vector<TreeNode *> nodesOnLevel;
+            bool foundLastLevel=false;
+            for(int i=0;i<count;i++){
+                auto node = q.front();
+                q.pop();
+                nodesOnLevel.push_back(node);
+                
+                if(node->left == nullptr or node->right == nullptr)
+                    foundLastLevel = true;
+                
+                if(node->left != nullptr)
+                    q.push(node->left);
+                if(node->right != nullptr)
+                    q.push(node->right);
             }
-            if(node->right == nullptr) {
-                node->right = new TreeNode(val);
-                return node->val;
-            }
-            q.push(node->left);
-            q.push(node->right);
+            secLastLevel=nodesOnLevel;
+            if(foundLastLevel) break;
         }
-        return -1;
+        for(int i=0;i<secLastLevel.size();i++){
+            if(secLastLevel[i]->left == nullptr or secLastLevel[i]->right == nullptr){
+                idxLastUsed=i;
+                break;
+            }
+        }
+    }
+    
+    int insert(int val) {
+        
+        if(secLastLevel[idxLastUsed]->left == nullptr){
+            
+            secLastLevel[idxLastUsed]->left = new TreeNode(val);
+            return secLastLevel[idxLastUsed]->val;
+            
+        }else if(secLastLevel[idxLastUsed]->right == nullptr){
+            
+            secLastLevel[idxLastUsed]->right = new TreeNode(val);
+            return secLastLevel[idxLastUsed]->val;
+            
+        }
+        idxLastUsed++;
+        if(idxLastUsed >= secLastLevel.size()){
+            vector<TreeNode*> nextLevel;
+            for(auto x:secLastLevel){
+                nextLevel.push_back(x->left);
+                nextLevel.push_back(x->right);
+            }
+            secLastLevel = nextLevel;
+            idxLastUsed=0;
+        }
+        return insert(val);
     }
     
     TreeNode* get_root() {
