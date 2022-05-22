@@ -12,7 +12,7 @@
 class CBTInserter {
 public:
     TreeNode* root = nullptr;
-    vector<TreeNode*> secLastLevel;
+    vector<TreeNode*> secLastLevel, lastLevel;
     int idxLastUsed = 0;
     CBTInserter(TreeNode* root_) {
         root=root_;
@@ -40,6 +40,12 @@ public:
             if(foundLastLevel) break;
         }
         for(int i=0;i<secLastLevel.size();i++){
+            if(secLastLevel[i]->left != nullptr){
+                lastLevel.push_back(secLastLevel[i]->left);
+            }
+            if(secLastLevel[i]->right != nullptr){
+                lastLevel.push_back(secLastLevel[i]->right);
+            }
             if(secLastLevel[i]->left == nullptr or secLastLevel[i]->right == nullptr){
                 idxLastUsed=i;
                 break;
@@ -52,22 +58,20 @@ public:
         if(secLastLevel[idxLastUsed]->left == nullptr){
             
             secLastLevel[idxLastUsed]->left = new TreeNode(val);
+            lastLevel.push_back(secLastLevel[idxLastUsed]->left);
             return secLastLevel[idxLastUsed]->val;
             
         }else if(secLastLevel[idxLastUsed]->right == nullptr){
             
             secLastLevel[idxLastUsed]->right = new TreeNode(val);
+            lastLevel.push_back(secLastLevel[idxLastUsed]->right);
             return secLastLevel[idxLastUsed]->val;
             
         }
         idxLastUsed++;
         if(idxLastUsed >= secLastLevel.size()){
-            vector<TreeNode*> nextLevel;
-            for(auto x:secLastLevel){
-                nextLevel.push_back(x->left);
-                nextLevel.push_back(x->right);
-            }
-            secLastLevel = nextLevel;
+            secLastLevel = lastLevel;
+            lastLevel.clear();
             idxLastUsed=0;
         }
         return insert(val);
