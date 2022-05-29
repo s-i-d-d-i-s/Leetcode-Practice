@@ -1,7 +1,7 @@
 class Solution {
 public:
-    long long getBitMask(string &a){
-        long long result = 0;
+    int getBitMask(string &a){
+        int result = 0;
         for(char x:a){
             int index = x-'a';
             result |= (1<<index);
@@ -10,11 +10,12 @@ public:
     }
     
     int maxProduct(vector<string>& words) {
-        vector<long long> bitMasks;
-        for(auto x:words){
-            bitMasks.push_back(getBitMask(x));
-        }
         int n = words.size();
+        int bitMasks[n];
+        for(int i=0;i<n;i++){
+            bitMasks[i] = getBitMask(words[i]);
+        }
+        
         int result=0;
         for(int i=0;i<n;i++){
             for(int j=i+1;j<n;j++){
